@@ -10,35 +10,26 @@
 
 class Solution {
 public:
-    int dfsHeight(TreeNode* root){
+    int diameterOfBinaryTree(TreeNode* root) {
+        //your code goes here
+        int diameter=0;
+
+        height(root,diameter);
+
+        return diameter;
+    }
+
+    int height(TreeNode* root,int &diameter){
         if(root==NULL){
             return 0;
         }
 
-        int left=dfsHeight(root->left);
-        int right=dfsHeight(root->right);
+        int left=height(root->left,diameter);
+
+        int right=height(root->right,diameter);
+
+        diameter=max(diameter,left+right);
 
         return 1 + max(left,right);
-    }
-
-    int diameterOfBinaryTree(TreeNode* root) {
-        //your code goes here
-       if(root==NULL){
-        return 0;
-       }
-
-        int maxi=0;
-
-        int left=dfsHeight(root->left);
-        int right=dfsHeight(root->right);
-
-        int currentDiameter=left+right;
-
-        int leftDiameter = diameterOfBinaryTree(root->left);
-        int rightDiameter = diameterOfBinaryTree(root->right);
-
-        return max(currentDiameter,max(leftDiameter,rightDiameter));
-
-
     }
 };
