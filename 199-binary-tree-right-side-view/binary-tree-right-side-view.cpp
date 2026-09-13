@@ -10,53 +10,28 @@
 
 class Solution {
 public:
-    vector<vector<int>> levelOrder(TreeNode* root){
-        vector<vector<int>> ans;
-        vector<int> level;
 
+    void preOrder(TreeNode* root,int depth,vector<int> &level){
         if(root==NULL){
-            return ans;
+            return;
         }
 
-        queue<TreeNode*> q;
-
-        q.push(root);
-
-        while(!q.empty()){
-            int size=q.size();
-
-            vector<int> level;
-
-            for(int i=0;i<size;i++){
-                TreeNode* node=q.front();
-                level.push_back(node->val);
-                q.pop();
-
-                if(node->left!=NULL){
-                    q.push(node->left);
-                }
-                if(node->right!=NULL){
-                    q.push(node->right);
-                }
-            }
-            ans.push_back(level);
+        if(depth==level.size()){
+            level.push_back(root->val);
         }
 
-        return ans;
+        preOrder(root->right,depth+1,level);
+
+        preOrder(root->left,depth+1,level);
+        
     }
 
     vector<int> rightSideView(TreeNode* root) {
         //your code goes here
+        vector<int> level;
 
-        vector<int> result;
+        preOrder(root,0,level);
 
-        vector<vector<int>> levelTraversal=levelOrder(root);
-
-        for(auto p : levelTraversal){
-            result.push_back(p.back());
-        }
-
-         return result;
-        
+        return level;
     }
 };
