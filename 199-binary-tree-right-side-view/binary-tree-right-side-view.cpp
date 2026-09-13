@@ -10,43 +10,53 @@
 
 class Solution {
 public:
-    vector<int> rightSideView(TreeNode* root) {
-        //your code goes here
-
-        vector<int> ans;
+    vector<vector<int>> levelOrder(TreeNode* root){
+        vector<vector<int>> ans;
+        vector<int> level;
 
         if(root==NULL){
             return ans;
         }
 
-        queue<pair<TreeNode*,int>> q;
+        queue<TreeNode*> q;
 
-        map<int,TreeNode*> mp;
-
-        q.push({root,0});
+        q.push(root);
 
         while(!q.empty()){
-            auto p = q.front();
-            q.pop();
+            int size=q.size();
 
-            TreeNode* node=p.first;
-            int x=p.second;
+            vector<int> level;
 
-            mp[x]=node;
+            for(int i=0;i<size;i++){
+                TreeNode* node=q.front();
+                level.push_back(node->val);
+                q.pop();
 
-            if(node->left!=NULL){
-                q.push({node->left,x+1});
+                if(node->left!=NULL){
+                    q.push(node->left);
+                }
+                if(node->right!=NULL){
+                    q.push(node->right);
+                }
             }
-
-            if(node->right!=NULL){
-                q.push({node->right,x+1});
-            }
-        }
-
-        for(auto &p : mp){
-            ans.push_back(p.second->val);
+            ans.push_back(level);
         }
 
         return ans;
+    }
+
+    vector<int> rightSideView(TreeNode* root) {
+        //your code goes here
+
+        vector<int> result;
+
+        vector<vector<int>> levelTraversal=levelOrder(root);
+
+        for(auto p : levelTraversal){
+            result.push_back(p.back());
+        }
+
+         return result;
+        
     }
 };
