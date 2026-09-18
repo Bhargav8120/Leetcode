@@ -15,7 +15,7 @@ public:
 
         for(int i=0;i<s.size();){
 
-            if(i+1 < s.size() && mp[s[i]] < mp[s[i+1]]){
+            if(mp[s[i]] < mp[s[i+1]]){
                 ans+=(mp[s[i+1]]-mp[s[i]]);
                 i=i+2;
             }
