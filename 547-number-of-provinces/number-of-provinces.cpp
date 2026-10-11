@@ -1,6 +1,6 @@
 class Solution {
    public:
-    void bfs(int node , vector<vector<int>> &adj , vector<int> &vis){
+    void bfs(int node ,vector<int> &vis,vector<vector<int>> &list){
         vis[node]=1;
 
         queue<int> q;
@@ -11,32 +11,41 @@ class Solution {
             int node = q.front();
             q.pop();
 
-            for(int adjNode=0 ; adjNode<adj.size();adjNode++){
-                if(adj[node][adjNode]==1 && !vis[adjNode]){
-                    vis[adjNode]=1;
-                    q.push(adjNode);
+            for(auto it : list[node]){
+                if(!vis[it]){
+                    vis[it]=1;
+                    q.push(it);
                 }
             }
         }
+
         return;
     }
-
     int findCircleNum(vector<vector<int>> adj) {
+        int n = adj.size();
 
-        int rows = adj.size();
+        vector<int> vis(n,0);
 
-        vector<int> vis(rows,0);
+        vector<vector<int>> list(n);
 
-        int count=0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (adj[i][j] == 1 && i != j) {
+                    list[i].push_back(j);
+                }
+            }
+        }
 
-        for (int i = 0; i < rows; i++) {
-            if(!vis[i]){
+        int count = 0;
+
+        for(int i=0;i<n;i++){
+            if(vis[i]!=1){
                 count++;
-                bfs(i,adj,vis);
+                vis[i]=1;
+                bfs(i,vis,list);
             }
         }
 
         return count;
-
     }
 };
