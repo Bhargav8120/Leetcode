@@ -2,43 +2,42 @@ class Solution {
    public:
     vector<vector<int>> floodFill(vector<vector<int>> &image, int sr, int sc,
                                   int newColor) {
-        int n = image.size();
-        int m = image[0].size();
+
+        vector<vector<int>> newImage(image.begin(), image.end());
+
+        int drow[]={-1,0,1,0};
+        int dcol[]={0,1,0,-1};
+
+        int rows = image.size();
+        int cols = image[0].size();
 
         int originalColor = image[sr][sc];
 
-        if(originalColor==newColor) return image;
+        newImage[sr][sc]=newColor;
 
-        queue<pair<int, int>> q;
+        queue<pair<int,int>> q;
 
-        q.push({sr, sc});
+        q.push({sr,sc});
 
-        image[sr][sc] = newColor;
-
-        int dr[] = {-1, 1, 0, 0};
-        int dc[] = {0, 0, -1, 1};
-
-        while (!q.empty()) {
-            auto cell = q.front();
+        while(!q.empty()){
+            auto node = q.front();
             q.pop();
 
-            int row = cell.first;
-            int col = cell.second;
+            int r = node.first;
+            int c = node.second;
 
             for(int i=0;i<4;i++){
-                int nr = row + dr[i];
-                int nc = col + dc[i];
+                int nrow = r + drow[i];
+                int ncol = c + dcol[i];
 
-                if(nr>=0 && nr<n && nc>=0 && nc<m && image[nr][nc]==originalColor){
-
-                    image[nr][nc]=newColor;
-
-                    q.push({nr,nc});
+                if(nrow>=0 && nrow<rows && ncol>=0 && ncol<cols && newImage[nrow][ncol]==originalColor && newImage[nrow][ncol]!=newColor){
+                    newImage[nrow][ncol]=newColor;
+                    q.push({nrow,ncol});
                 }
             }
         }
 
-        return image;
+        return newImage;
+        
     }
-
 };
