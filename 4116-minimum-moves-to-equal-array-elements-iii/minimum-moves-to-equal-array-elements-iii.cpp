@@ -11,10 +11,7 @@ public:
         int count=0;
 
         for(int i=0;i<nums.size();i++){
-            while(nums[i]!=maxEle){
-                nums[i]++;
-                count++;
-            }
+            count+=maxEle-nums[i];
         }
 
         return count;
